@@ -1,34 +1,88 @@
+// // #Synchronous JavaScript
 // console.log("Start");
 
-// console.log("Processing payment");
+// function processPayment() {
+//   console.log("Processing");
+// }
+
+// processPayment();
 
 // console.log("End");
 
 
-// function calculateRemainingAmount(total, paid) {
-//   return total - paid;
+
+// // #Call Stack
+// function first() {
+//   console.log("First");
+//   second();
+//   console.log("First End");
 // }
 
-// console.log("Calculation started");
+// function second() {
+//   console.log("Second");
+// }
 
-// const remainingAmount = calculateRemainingAmount(2000, 700);
+// first();
 
-// console.log(remainingAmount);
+////#setTimeout()
 
-// console.log("Calculation completed");
+// console.log("Start");
+
+// setTimeout(() => {
+//   console.log("Timer");
+// }, 1000);
+
+// console.log("End");
+
+// Run the callback as soon as the current call stack and pending microtasks are complete.
+
+
+
+// // #Event Loop
+
+// The event loop coordinates:
+
+// Call Stack
+// Microtask Queue
+// Macrotask Queue
+
+// Basic execution order:
+
+// 1. Run all synchronous code
+// 2. Run all microtasks
+// 3. Run one macrotask
+// 4. Run any new microtasks
+// 5. Run the next macrotask
+
+
+
+// // #Macrotasks#
 // console.log("A");
 
-// function processBooking() {
+// setTimeout(() => {
 //   console.log("B");
-//   console.log("C");
-// }
+// }, 0);
 
-// processBooking();
+// console.log("C");
+
+
+
+// // #Promise Execution Order
+// console.log("A");
+
+// Promise.resolve().then(() => {
+//   console.log("B");
+// });
+
+// Promise.resolve().then(() => {
+//   console.log("C");
+// });
 
 // console.log("D");
 
 
 
+// // #Microtasks Inside a Timer
 // console.log("A");
 
 // setTimeout(() => {
@@ -45,12 +99,18 @@
 
 // console.log("E");
 
-// After each macrotask, JavaScript clears the microtask queue before starting the next macrotask.
 
 
 
+// // #async Functions
+// async function getPayment() {
+//   return "Payment loaded";
+// }
 
-// Next topic — async and await
+// console.log(getPayment());
+
+
+// // #await
 // console.log("Start");
 
 // async function processPayment() {
@@ -66,65 +126,78 @@
 // console.log("End");
 
 
+// // #Promise and await Ordering
+// console.log("A");
 
-console.log("Start");
+// async function first() {
+//   console.log("B");
 
-setTimeout(() => {
-  console.log("Timer 1");
+//   await Promise.resolve();
 
-  Promise.resolve().then(() => {
-    console.log("Promise inside Timer");
-  });
-}, 0);
+//   console.log("C");
+// }
 
-Promise.resolve().then(() => {
-  console.log("Promise 1");
+// Promise.resolve().then(() => {
+//   console.log("D");
+// });
 
-  setTimeout(() => {
-    console.log("Timer 2");
-  }, 0);
-});
+// first();
 
-async function processBooking() {
-  console.log("Booking started");
-
-  await Promise.resolve();
-
-  console.log("Booking completed");
-}
-
-processBooking();
-
-console.log("End");
+// console.log("E");
 
 
 
-console.log("A");
 
-setTimeout(() => {
-  console.log("B");
-}, 0);
+// // #Complete Event Loop Example
+// console.log("Start");
 
-async function loadData() {
-  console.log("C");
+// setTimeout(() => {
+//   console.log("Timer 1");
 
-  await Promise.resolve();
+//   Promise.resolve().then(() => {
+//     console.log("Promise inside Timer");
+//   });
+// }, 0);
 
-  console.log("D");
+// Promise.resolve().then(() => {
+//   console.log("Promise 1");
 
-  setTimeout(() => {
-    console.log("E");
-  }, 0);
-}
+//   setTimeout(() => {
+//     console.log("Timer 2");
+//   }, 0);
+// });
 
-Promise.resolve().then(() => {
-  console.log("F");
-});
+// async function processBooking() {
+//   console.log("Booking started");
 
-loadData();
+//   await Promise.resolve();
 
-console.log("G");
+//   console.log("Booking completed");
+// }
 
-// Synchronous:
-// Microtasks:
-// Timers:
+// processBooking();
+
+// console.log("End");
+
+
+
+// Quick Rules to Remember
+// Synchronous code always runs first.
+
+// Promise callbacks run before setTimeout callbacks.
+
+// Code before await runs immediately.
+
+// Code after await runs as a microtask.
+
+// setTimeout(..., 0) still runs after synchronous code and microtasks.
+
+// After every macrotask, all pending microtasks are completed.
+
+// Microtasks run in the order they are added.
+
+
+
+// JavaScript is single-threaded and executes synchronous code using the call stack. Asynchronous callbacks are handled through queues.
+//  Promise callbacks and code after await are placed in the microtask queue, while timers such as setTimeout are placed in the macrotask queue. 
+// After the call stack becomes empty, the event loop processes all microtasks before running the next macrotask.
